@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package myapp;
+
+
+message EventUpdateStatus {
+  int32 event_id = 1;
+  string status = 2;
+}

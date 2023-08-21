@@ -1,0 +1,4 @@
+INCREASE_SALARY = "Tăng lương"
+PREFIX = "/api/v1"
+DEFAULT_SUBJECT = 'Toán'
+OTHER_SUBJECT = 'Lý'
