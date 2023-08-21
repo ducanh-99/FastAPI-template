@@ -1,4 +1,4 @@
-# vector
+# FastAPI template
 
 ## Installation
 
