@@ -1,0 +1,8 @@
+docker/*
+.venv/*
+venv/*
+.idea/*
+.docker/*
+docker-compose.yaml
+Dockerfile
+.pytest_cache/*

@@ -1,0 +1,127 @@
+version: '3.7'
+
+services:
+  backend:
+    container_name: vector
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8080"
+    env_file:
+      - ".env"
+    environment:
+      - VIRTUAL_HOST=anhnd.click
+      - VIRTUAL_PORT=8080
+      - LETSENCRYPT_HOST=anhnd.click
+      - LETSENCRYPT_EMAIL=anhnd350309@gmail.com
+
+  consumer:
+    container_name: consumer-booking
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ".env"
+    command: python3 app/consume/consume_booking_create.py
+
+  consumer_event:
+    container_name: consumer-event-update-status
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ".env"
+    command: python3 app/consume/consume_event_update_status.py
+
+  remind_event:
+    container_name: reminder_event
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ".env"
+    command: python3 app/job/schedule_send_noti.py
+
+  consumer_payment:
+    container_name: consumer-payment
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ".env"
+    command: python3 app/consume/consume_payment.py
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_SCHEMA}
+    ports:
+      - 3306:3306
+    volumes:
+      - ./.docker/db:/var/lib/mysql
+      - ./.docker/mysqld:/var/run/mysqld
+
+  minio:
+    image: minio/minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./.docker/storage:/data
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+    command: server --console-address ":9001" /data
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    restart: always
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - /vol1/zk-data:/var/lib/zookeeper/data
+      - /vol2/zk-txn-logs:/var/lib/zookeeper/log
+    ports:
+      - 22181:2181
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    restart: always
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://10.148.0.2:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - /vol3/kafka-data:/var/lib/kafka/data
+
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+
+
+networks:
+  default:
+    name: nginx-proxy_default

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package myapp;
+
+
+message Payment {
+  int32 payment_id = 1;
+  string status = 2;
+  string status_admin = 3;
+}

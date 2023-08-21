@@ -71,7 +71,7 @@ celerybeat-schedule
 .env
 
 # virtualenv
-.venv*/*
+.venv/*
 venv/*
 
 # docker local data
@@ -81,5 +81,3 @@ venv/*
 
 # custom
 tmp/
-test_coverage/
-.venv*/
