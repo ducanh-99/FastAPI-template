@@ -6,11 +6,7 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-RUN apt-get update -qqy && apt-get -qqy install -y default-libmysqlclient-dev default-mysql-client vim nano gcc nmap curl wget \
-    && apt-get autoclean \
-    && apt-get autoremove \
-    && apt-get install -y git \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 COPY requirements.txt .
 
