@@ -6,7 +6,7 @@ from fastapi.responses import ORJSONResponse
 from app.helpers.db import check_database_connect
 from app.helpers.exception_handler import CustomException
 from app.i18n.errors import ErrorCode
-from app.schemas.sche_base import ResponseSchemaBase
+from app.schemas.schema_base import ResponseSchemaBase
 
 logger = logging.getLogger(__name__)
 router = APIRouter()

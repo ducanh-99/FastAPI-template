@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from app.dependencies import lang_validator
 from app.i18n.errors import PYDANTIC_ERROR_MAPPING, ErrorCode
 from app.i18n.lang import MultiLanguage
-from app.schemas.sche_base import ResponseSchemaBase
+from app.schemas.schema_base import ResponseSchemaBase
 
 
 class CustomException(Exception):

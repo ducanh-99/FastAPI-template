@@ -8,8 +8,8 @@ from fastapi.security import HTTPBearer
 from starlette.responses import StreamingResponse
 
 from app.helpers.exception_handler import CustomException
-from app.schemas.sche_base import DataResponse
-from app.schemas.sche_common import UploadFileResponse
+from app.schemas.schema_base import DataResponse
+from app.schemas.schema_common import UploadFileResponse
 from app.storage.minio_handler import MinioHandler
 
 logger = logging.getLogger(__name__)

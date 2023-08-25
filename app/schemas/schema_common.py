@@ -2,7 +2,7 @@ from pydantic import BaseModel, validator
 from pydantic.fields import Field
 
 from app.helpers.exception_handler import ValidateException
-from app.schemas.sche_base import MappingByFieldName
+from app.schemas.schema_base import MappingByFieldName
 
 
 class UploadFileResponse(MappingByFieldName):

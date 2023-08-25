@@ -1,4 +1,4 @@
-from app.schemas.sche_base import PaginationReq
+from app.schemas.schema_base import PaginationReq
 
 
 def pagination(pagination_request: PaginationReq, query):
