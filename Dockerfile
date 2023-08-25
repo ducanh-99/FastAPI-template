@@ -23,8 +23,6 @@ RUN useradd -g app --uid 1000 app
 
 RUN chown -R app:app /app
 
-RUN alembic upgrade head
-
 USER app
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "1"]
