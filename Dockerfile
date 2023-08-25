@@ -6,6 +6,9 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
+RUN apt-get update -qqy && apt-get -qqy install -y  nano gcc nmap curl wget \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 COPY requirements.txt .
