@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+message Null {}
+
+message Ticket {
+  string name = 1;
+  string description = 2;
+  uint32 story_points = 3;
+}
+
+message Confirmation {
+  string expected_dateline = 1;
+}
+
+service TestService {
+  rpc Health(Null) returns (Null);
+  rpc AddTicket(Ticket) returns (Confirmation);
+}
