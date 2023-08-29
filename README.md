@@ -71,3 +71,9 @@ Example generate file python from proto
 ```bash
 protoc -I=. --python_out=. app/dto/proto/booking.proto
 ```
+
+
+Compile the .proto files...
+```bash 
+python -m grpc_tools.protoc -I definitions/ --python_out=definitions/builds/ --grpc_python_out=definitions/builds/ definitions/service.proto
+```
